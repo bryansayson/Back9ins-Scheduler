@@ -5,7 +5,7 @@ app.run(function(editableOptions) {
 });
 
 app.controller('Ctrl', function($scope, $filter, $http) {
-  
+
   $scope.tasks = [{
     id: 1,
     name: 'awesome user1',
@@ -49,7 +49,7 @@ app.controller('Ctrl', function($scope, $filter, $http) {
   // add user
   $scope.addTask = function() {
     $scope.inserted = {
-      id: $scope.users.length + 1,
+      id: $scope.tasks.length + 1,
     };
     $scope.tasks.push($scope.inserted);
   };
