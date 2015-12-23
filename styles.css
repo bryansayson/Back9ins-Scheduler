@@ -1,0 +1,42 @@
+.individualTask {
+    padding-bottom: 15px;
+}
+
+.data {
+    text-align: center;
+}
+
+.actionButtons {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.addRowButton {
+    width: 100%;
+}
+
+.editable-input {
+    width: 100px;
+}
+
+.textInside {
+    width: 100px;
+}
+
+.heading {
+    font-size: 17px;
+    color: #96f;
+}
+
+.textInside {
+    font-size: 15px;
+}
+
+.title {
+    text-align: center;
+}
+
+.saveCancel {
+    margin-top: 35px;
+    text-align: center;
+}

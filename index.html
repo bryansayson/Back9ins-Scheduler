@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<head>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-animate.js"></script>
+    <script src="https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.14.3.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.5/slate/bootstrap.min.css" rel="stylesheet" integrity="sha256-JcgoO7qVianjbv43Z5KinReHzk9/rEZg5m6z/ZZy3DI= sha512-rYMbEYJa5+7VkGdfAypdYHqwIdCNEBKh8lhKUNIv58tgHQuHHzXC/Bzf66BFDkTjq970Lc6OIEpgllKINGDCKQ==" crossorigin="anonymous">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/angular-xeditable/0.1.9/css/xeditable.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-xeditable/0.1.9/js/xeditable.min.js">
+    </script>
+    <script src="https://code.angularjs.org/1.0.8/angular-mocks.js">
+    </script>
+    <script src="app.js">
+    </script>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<h1 class="title">Heroku App Scheduler Clone</h1>
+<div ng-app="app" ng-controller="Ctrl" class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-bordered table-hover table-condensed table-responsive" ng-repeat="task in tasks">
+                <tr class="individualTask row">
+                    <td class="data col-md-2">
+                        <!-- editable username (text with validation) -->
+                        <h3 class="heading">TASK NAME</h3>
+                        <span class="textInside" editable-text="task.name" e-name="name" e-form="rowform">
+                            $ {{ task.name || 'empty' }}
+                        </span>
+                    </td>
+                    <td class="data col-md-2">
+                        <!-- editable status (select-local) -->
+                        <h3 class="heading">DYNO SIZE</h3>
+                        <span class="textInside" editable-select="task.dynoSize" e-name="dynoSize" e-form="rowform" e-ng-options="s as s for s in dynoSizes">
+                            {{ task.dynoSize }}
+                        </span>
+                    </td>
+                    <td class="data col-md-2">
+                        <!-- editable group (select-remote) -->
+                        <h3 class="heading">FREQUENCY</h3>
+                        <span class="textInside" editable-select="task.frequency" e-name="frequency" e-form="rowform" e-ng-options="f as f for f in frequencies">
+                            {{ task.frequency }}
+                        </span>
+                    </td>
+                    <td class="data col-md-2">
+                        <!-- editable group (select-remote) -->
+                        <h3 class="heading"> LAST RUN </h3>
+                        <span class="textInside">
+                            {{ task.lastRun }}
+                        </span>
+                    </td>
+                    <td class="data col-md-2">
+                        <!-- editable group (select-remote) -->
+                        <h3 class="heading">NEXT DUE</h3>
+                        <span class="textInside">
+                            {{tomorrow | date:'EEE, dd MMM yyyy'}} :
+                            <span class="textInside" editable-select="task.nextDue" e-name="times" e-form="rowform" e-ng-options="t as t for t in times">
+                                {{ task.nextDue }}
+                            </span>
+                        </td>
+                    </span>
+                </td>
+                <td style="white-space: nowrap" class="col-md-3 col-sm-3 col-xs-6">
+                    <!-- form -->
+                    <form editable-form name="rowform" onbeforesave="saveTask($data, task.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == task">
+                        <div class="buttons saveCancel">
+                            <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
+                            Save
+                            </button>
+                            <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default">
+                            Cancel
+                            </button>
+                        </div>
+                    </form>
+                    <div class="buttons actionButtons" ng-show="!rowform.$visible">
+                        <button class="btn btn-primary" ng-click="rowform.$show()">Edit</button>
+                        <button class="btn btn-danger" ng-click="removeTask($index)">Delete</button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <button class="addRowButton btn btn-default btn-lg" ng-click="addTask()">Add Task</button>
+    </div>
+</div>
+</div>
